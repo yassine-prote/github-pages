@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Virus Alert</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: black;
+            color: red;
+            font-family: Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        h1, p {
+            text-shadow: 0 0 5px red, 0 0 10px red, 0 0 20px red;
+            text-align: center;
+        }
+        h1 {
+            font-size: 60px;
+            animation: flicker 1.5s infinite;
+        }
+        p {
+            font-size: 30px;
+        }
+        .fake-terminal {
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ff00;
+            width: 80%;
+            height: 40%;
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px solid #00ff00;
+            overflow-y: auto;
+            font-size: 18px;
+        }
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Warning: Virus Detected!</h1>
+    <p id="countdown">Shutting down in 10 seconds...</p>
+    <div class="fake-terminal" id="terminal"></div>
+
+    <script>
+        // Fullscreen activation
+        function goFullscreen() {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari, Opera
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                document.documentElement.msRequestFullscreen();
+            }
+        }
+        goFullscreen();
+
+        // Countdown logic
+        let countdown = 10;
+        const countdownElement = document.getElementById("countdown");
+        const terminalElement = document.getElementById("terminal");
+        const interval = setInterval(function () {
+            countdown--;
+            countdownElement.innerHTML = `Shutting down in ${countdown} seconds...`;
+            if (countdown <= 0) {
+                clearInterval(interval);
+                countdownElement.innerHTML = "System shutting down...";
+                fakeHacking();
+            }
+        }, 1000);
+
+        // Fake hacking commands
+        const commands = [
+            "Encrypting files...",
+            "Uploading sensitive data...",
+            "Connecting to dark web...",
+            "Injecting ransomware...",
+            "Deleting system32...",
+            "Bypassing firewall...",
+            "Virus spreading to network devices..."
+        ];
+        let commandIndex = 0;
+
+        function fakeHacking() {
+            const hackingInterval = setInterval(() => {
+                if (commandIndex < commands.length) {
+                    terminalElement.innerHTML += commands[commandIndex] + "<br>";
+                    terminalElement.scrollTop = terminalElement.scrollHeight; // Auto-scroll
+                    commandIndex++;
+                } else {
+                    clearInterval(hackingInterval);
+                    terminalElement.innerHTML += "<br><b>Shutdown complete. Goodbye.</b>";
+                }
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
